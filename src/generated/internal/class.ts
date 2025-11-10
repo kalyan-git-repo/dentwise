@@ -33,6 +33,10 @@ const config: runtime.GetPrismaClientConfig = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "rhel-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -46,6 +50,7 @@ const config: runtime.GetPrismaClientConfig = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -54,8 +59,8 @@ const config: runtime.GetPrismaClientConfig = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(cuid())\n  clerkId   String   @unique\n  email     String   @unique\n  firstName String?\n  lastName  String?\n  phone     String?\n  createdAt DateTime @default(now()) // member since sep 2025\n  updatedAt DateTime @updatedAt\n\n  // relationships\n  appointments Appointment[]\n\n  @@map(\"users\")\n}\n\nmodel Doctor {\n  id         String   @id @default(cuid())\n  name       String\n  email      String   @unique\n  phone      String\n  speciality String\n  bio        String?\n  imageUrl   String\n  gender     Gender\n  isActive   Boolean  @default(true)\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  // relationships\n  appointments Appointment[]\n\n  @@map(\"doctors\")\n}\n\nmodel Appointment {\n  id        String            @id @default(cuid())\n  date      DateTime\n  time      String // store time as string i.e. 14:30\n  duration  Int               @default(30) // duration in minutes\n  status    AppointmentStatus @default(CONFIRMED)\n  notes     String?\n  reason    String? // reason for appointment - teeth cleaning? emergency visit? etc.\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  // foreign keys\n  userId   String\n  doctorId String\n\n  // relationships\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)\n\n  @@map(\"appointments\")\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum AppointmentStatus {\n  CONFIRMED\n  COMPLETED\n}\n",
-  "inlineSchemaHash": "143a8f7157965e29e40b5606bd346f5ea07f9ea58926d980afdf0eea8808f36c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\"]\n  output        = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(cuid())\n  clerkId   String   @unique\n  email     String   @unique\n  firstName String?\n  lastName  String?\n  phone     String?\n  createdAt DateTime @default(now()) // member since sep 2025\n  updatedAt DateTime @updatedAt\n\n  // relationships\n  appointments Appointment[]\n\n  @@map(\"users\")\n}\n\nmodel Doctor {\n  id         String   @id @default(cuid())\n  name       String\n  email      String   @unique\n  phone      String\n  speciality String\n  bio        String?\n  imageUrl   String\n  gender     Gender\n  isActive   Boolean  @default(true)\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  // relationships\n  appointments Appointment[]\n\n  @@map(\"doctors\")\n}\n\nmodel Appointment {\n  id        String            @id @default(cuid())\n  date      DateTime\n  time      String // store time as string i.e. 14:30\n  duration  Int               @default(30) // duration in minutes\n  status    AppointmentStatus @default(CONFIRMED)\n  notes     String?\n  reason    String? // reason for appointment - teeth cleaning? emergency visit? etc.\n  createdAt DateTime          @default(now())\n  updatedAt DateTime          @updatedAt\n\n  // foreign keys\n  userId   String\n  doctorId String\n\n  // relationships\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n  doctor Doctor @relation(fields: [doctorId], references: [id], onDelete: Cascade)\n\n  @@map(\"appointments\")\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum AppointmentStatus {\n  CONFIRMED\n  COMPLETED\n}\n",
+  "inlineSchemaHash": "2635bba7686ad0b9c49b173136486af04fbfed1929d0e5bf218c1b87577df136",
   "copyEngine": true,
   "runtimeDataModel": {
     "models": {},
