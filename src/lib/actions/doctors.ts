@@ -1,6 +1,6 @@
 "use server";
 
-import { Gender } from "@/generated/enums";
+import { Gender } from "@/generated/prisma/enums";
 import { prisma } from "../prisma";
 import { generateAvatar } from "../utils";
 import { revalidatePath } from "next/cache";

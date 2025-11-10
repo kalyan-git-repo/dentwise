@@ -1,5 +1,5 @@
 import { useCreateDoctor } from "@/hooks/use-docters";
-import { Gender } from "@/generated/enums";
+import { Gender } from "@/generated/prisma/enums";
 import { useState } from "react";
 import {
   Dialog,

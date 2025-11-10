@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Badge } from "../ui/badge";
 import AddDoctorDialog from "./AddDoctorDialog";
 import EditDoctorDialog from "./EditDoctorDialog";
-import { Doctor } from "@/generated/client";
+import { Doctor } from "@/generated/prisma/client";
 
 function DoctorsManagement() {
   const { data: doctors = [] } = useGetDoctors();
